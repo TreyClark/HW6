@@ -196,6 +196,71 @@ public class AdapterListBasic extends RecyclerView.Adapter {
         }
     }
 
+    public void sortList(){
+        List<Item> linkedItems = null;
+        List<Item> readyItems = null;
+        List<Item> connectedItems = null;
+        List<Item> temp = null;
+
+        //grab Connected section
+        connectedItems = grabSection(mItems, Header.HeaderType.Connected, Device.DeviceStatus.Connected);
+        //temp = addSection(temp,connectedItems);
+        /*
+
+        //grab Ready section
+        readyItems = grabSection(mItems,Header.HeaderType.Ready, Device.DeviceStatus.Ready);
+        temp = addSection(temp,readyItems);
+
+        //grab Linked section
+        linkedItems = grabSection(mItems, Header.HeaderType.Linked,Device.DeviceStatus.Linked);
+        temp = addSection(temp,linkedItems);
+
+        mItems = temp;*/
+
+    }
+
+    public List<Item> grabSection(List<Item> mItems, Header.HeaderType targetHeader, Device.DeviceStatus targetDeviceStatus){
+        List<Item> target = null;
+        List<Item> temp = null;
+
+        Device device;
+        Header header;
+        int position;
+
+        for(position = 0; position<mItems.size(); position++)
+        {
+            if(mItems.get(position).getHeader() == true){
+                header = (Header) mItems.get(position);
+                if (header.getHeaderType() == targetHeader){
+                    System.out.println(header.getHeaderType());
+                    //target.add(mItems.get(position));
+                }
+            }}
+/*
+            if(mItems.get(position).getHeader() == false){
+                device = (Device) mItems.get(position);
+                if (device.getDeviceStatus() == targetDeviceStatus){
+                    temp.add(device);
+                }
+            }
+
+        }
+
+        for(position = 0;position<temp.size();position++){
+            target.add(temp.get(position));
+        }*/
+
+        return target;
+    }
+
+    public List<Item> addSection (List<Item> target, List<Item> toBeAdded){
+        for(int position = 0; position<toBeAdded.size(); position++){
+            target.add(toBeAdded.get(position));
+        }
+
+        return target;
+
+    }
 }
 
 

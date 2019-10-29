@@ -30,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
         // TODO. Create and initialize the RecyclerView instance here
 
         List<Item> items = DataGenerator.getDevicesDataset(5);
-        items.add(new Header("Linked"));
-        items.add(new Header("Connected"));
-        items.add(new Header("Disconnected"));
+        items.add(new Header("Linked", Header.HeaderType.Linked));
+        items.add(new Header("Connected", Header.HeaderType.Connected));
+        items.add(new Header("Disconnected", Header.HeaderType.Ready));
         //items.addAll(DataGenerator.getDevicesDataset(5));
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     obj.setDeviceStatus(Device.DeviceStatus.Ready);
                 }
                 obj.setLastConnection(new Date(95364825));
-                System.out.println("FDSFSD");
+                mAdapter.sortList();
                 mAdapter.notifyDataSetChanged();
             }
         });
@@ -59,7 +59,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void testFunction(){
-
-    }
 }
