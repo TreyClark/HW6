@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by irconde on 2019-10-04.
  */
-public class Device {
+public class Device extends Item{
     private String name;
     private DeviceType deviceType;
     private Date lastConnection;

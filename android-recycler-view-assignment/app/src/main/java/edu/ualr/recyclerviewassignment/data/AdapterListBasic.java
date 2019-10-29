@@ -14,11 +14,14 @@ import java.util.List;
 
 import edu.ualr.recyclerviewassignment.R;
 import edu.ualr.recyclerviewassignment.model.Device;
+import edu.ualr.recyclerviewassignment.model.Item;
+
+import static java.sql.Types.NULL;
 
 
 public class AdapterListBasic extends RecyclerView.Adapter {
 
-    private List<Device> mItems;
+    private List<Item> mItems;
     private Context mContext;
 
     private OnItemClickListener mOnItemClickListener;
@@ -31,7 +34,7 @@ public class AdapterListBasic extends RecyclerView.Adapter {
         this.mOnItemClickListener = mItemClickListener;
     }
 
-    public AdapterListBasic(Context context, List<Device> items){
+    public AdapterListBasic(Context context, List<Item> items){
         this.mItems = items;
         this.mContext = context;
     }
@@ -49,18 +52,25 @@ public class AdapterListBasic extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position){
         DeviceViewHolder viewHolder = (DeviceViewHolder)holder;
-        Device device = mItems.get(position);
+        if (mItems.get(position).getHeader() == false) {
+            Device device = (Device) mItems.get(position);
 
-        setDeviceIcon(viewHolder, device.getDeviceType());
-        viewHolder.name.setText(device.getName());
-        setDeviceConnectivity(viewHolder, device.getDeviceStatus());
+            setDeviceIcon(viewHolder, device.getDeviceType());
+            viewHolder.name.setText(device.getName());
 
+
+            setDeviceConnectivity(viewHolder, device.getDeviceStatus(), device);
+
+        }
+
+
+        /*
         viewHolder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             }
         });
-
+        */
 
     }
 
@@ -70,7 +80,7 @@ public class AdapterListBasic extends RecyclerView.Adapter {
 
     }
 
-    public void setDeviceConnectivity (DeviceViewHolder viewHolder, Device.DeviceStatus status){
+    public void setDeviceConnectivity (DeviceViewHolder viewHolder, Device.DeviceStatus status, Device device){
 
         if(status == Device.DeviceStatus.Linked) {
             viewHolder.deviceStatus.setText("Never connected");
@@ -79,7 +89,10 @@ public class AdapterListBasic extends RecyclerView.Adapter {
         }
 
         if(status == Device.DeviceStatus.Ready) {
-            viewHolder.deviceStatus.setText("Never connected");
+            if (device.getLastConnection() == null)
+                viewHolder.deviceStatus.setText("Never connected");
+            else
+                viewHolder.deviceStatus.setText("Recently connected");
             viewHolder.connectionType.setImageResource(R.drawable.ic_btn_connect);
             viewHolder.statusIcon.setImageResource(R.drawable.status_mark_ready);
         }
@@ -134,24 +147,25 @@ public class AdapterListBasic extends RecyclerView.Adapter {
 
         public DeviceViewHolder(View v) {
             super(v);
+
             deviceIcon = v.findViewById(R.id.deviceIcon);
             statusIcon = v.findViewById(R.id.statusIcon);
             name = v.findViewById(R.id.deviceName);
             deviceStatus = v.findViewById(R.id.deviceStatus);
             connectionType = v.findViewById(R.id.connectionButton);
-            lyt_parent = v.findViewById(R.id.lyt_parent);
+            lyt_parent = v.findViewById(R.id.item_parent);
 
             lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mOnItemClickListener.onItemClick(view, mItems.get(getLayoutPosition()), getLayoutPosition());
+                    mOnItemClickListener.onItemClick(view, (Device) mItems.get(getLayoutPosition()), getLayoutPosition());
                 }
             });
         }
-
     }
 
 }
+
 
 
 

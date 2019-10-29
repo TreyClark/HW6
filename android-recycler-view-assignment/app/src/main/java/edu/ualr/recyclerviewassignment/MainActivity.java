@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.AdapterListUpdateCallback;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Date;
 import java.util.List;
 
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.View;
 import edu.ualr.recyclerviewassignment.data.AdapterListBasic;
 import edu.ualr.recyclerviewassignment.model.Device;
 import edu.ualr.recyclerviewassignment.data.DataGenerator;
+import edu.ualr.recyclerviewassignment.model.Item;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,21 +28,28 @@ public class MainActivity extends AppCompatActivity {
     private void initRecyclerView(){
         // TODO. Create and initialize the RecyclerView instance here
 
-        List<Device> items = DataGenerator.getDevicesDataset(5);
+        List<Item> items = DataGenerator.getDevicesDataset(5);
         //items.addAll(DataGenerator.getDevicesDataset(5));
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
-        AdapterListBasic mAdapter = new AdapterListBasic(this, items);
+        final AdapterListBasic mAdapter = new AdapterListBasic(this, items);
+        RecyclerView rView = findViewById(R.id.recyclerView);
 
         mAdapter.setOnItemClickListener(new AdapterListBasic.OnItemClickListener() {
             @Override
             public void onItemClick(View view, Device obj, int position) {
-                System.out.println(String.format("The user has tapped on %s", obj.getName()));
+                if(obj.getDeviceStatus()== Device.DeviceStatus.Ready)
+                    obj.setDeviceStatus(Device.DeviceStatus.Connected);
+                else if(obj.getDeviceStatus() == Device.DeviceStatus.Connected) {
+                    obj.setDeviceStatus(Device.DeviceStatus.Ready);
+                }
+                obj.setLastConnection(new Date(95364825));
+                System.out.println("FDSFSD");
+                mAdapter.notifyDataSetChanged();
             }
         });
 
-        RecyclerView rView = findViewById(R.id.recyclerView);
         rView.setLayoutManager(layoutManager);
         rView.setAdapter(mAdapter);
 
