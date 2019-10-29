@@ -14,6 +14,7 @@ import java.util.List;
 
 import edu.ualr.recyclerviewassignment.R;
 import edu.ualr.recyclerviewassignment.model.Device;
+import edu.ualr.recyclerviewassignment.model.Header;
 import edu.ualr.recyclerviewassignment.model.Item;
 
 import static java.sql.Types.NULL;
@@ -23,6 +24,9 @@ public class AdapterListBasic extends RecyclerView.Adapter {
 
     private List<Item> mItems;
     private Context mContext;
+
+    private static final int PERSON_VIEW = 0;
+    private static final int HEADER_VIEW = 1;
 
     private OnItemClickListener mOnItemClickListener;
 
@@ -39,20 +43,33 @@ public class AdapterListBasic extends RecyclerView.Adapter {
         this.mContext = context;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return this.mItems.get(position).getHeader()? HEADER_VIEW : PERSON_VIEW;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-        RecyclerView.ViewHolder vh;
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout,
-                parent, false);
-        vh = new DeviceViewHolder(itemView);
+        RecyclerView.ViewHolder vh = null;
+        View itemView = null;
+        switch (viewType) {
+            case (HEADER_VIEW) :
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_layout, parent, false);
+                vh = new SectionHeaderViewHolder(itemView);
+                break;
+            case (PERSON_VIEW):
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
+                vh = new DeviceViewHolder(itemView);
+                break;
+        }
         return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position){
-        DeviceViewHolder viewHolder = (DeviceViewHolder)holder;
         if (mItems.get(position).getHeader() == false) {
+            DeviceViewHolder viewHolder = (DeviceViewHolder)holder;
             Device device = (Device) mItems.get(position);
 
             setDeviceIcon(viewHolder, device.getDeviceType());
@@ -60,6 +77,13 @@ public class AdapterListBasic extends RecyclerView.Adapter {
 
 
             setDeviceConnectivity(viewHolder, device.getDeviceStatus(), device);
+
+        }
+        else{
+            SectionHeaderViewHolder sectionHeaderViewHolder = (SectionHeaderViewHolder) holder;
+            Header header = (Header) mItems.get(position);
+
+            sectionHeaderViewHolder.label.setText(header.getTitle());
 
         }
 
@@ -161,6 +185,14 @@ public class AdapterListBasic extends RecyclerView.Adapter {
                     mOnItemClickListener.onItemClick(view, (Device) mItems.get(getLayoutPosition()), getLayoutPosition());
                 }
             });
+        }
+    }
+
+    public class SectionHeaderViewHolder extends RecyclerView.ViewHolder {
+        public TextView label;
+        public SectionHeaderViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.label = itemView.findViewById(R.id.title_section);
         }
     }
 

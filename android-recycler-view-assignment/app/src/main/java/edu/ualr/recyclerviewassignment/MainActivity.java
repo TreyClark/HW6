@@ -14,6 +14,7 @@ import android.view.View;
 import edu.ualr.recyclerviewassignment.data.AdapterListBasic;
 import edu.ualr.recyclerviewassignment.model.Device;
 import edu.ualr.recyclerviewassignment.data.DataGenerator;
+import edu.ualr.recyclerviewassignment.model.Header;
 import edu.ualr.recyclerviewassignment.model.Item;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         // TODO. Create and initialize the RecyclerView instance here
 
         List<Item> items = DataGenerator.getDevicesDataset(5);
+        items.add(new Header("Linked"));
+        items.add(new Header("Connected"));
+        items.add(new Header("Disconnected"));
         //items.addAll(DataGenerator.getDevicesDataset(5));
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
