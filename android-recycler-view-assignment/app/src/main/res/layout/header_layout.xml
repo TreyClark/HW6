@@ -8,7 +8,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/title_section"
-
+        android:textSize="@dimen/spacing_large"
+        android:textColor="@color/colorPrimary"
         />
 
 </LinearLayout>

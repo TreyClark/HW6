@@ -28,7 +28,7 @@
     <string name="minute">minute</string>
     <!-- Connection status -->
     <string name="currently_connected">Currently connected</string>
-    <string name="recently">Recently</string>
+    <string name="recently">Recently connected</string>
     <string name="long_time_ago">A long time ago</string>
     <string name="never_connected">Never connected</string>
 </resources>

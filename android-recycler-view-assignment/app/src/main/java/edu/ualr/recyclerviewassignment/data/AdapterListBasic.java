@@ -108,22 +108,22 @@ public class AdapterListBasic extends RecyclerView.Adapter {
     public void setDeviceConnectivity (DeviceViewHolder viewHolder, Device.DeviceStatus status, Device device){
 
         if(status == Device.DeviceStatus.Linked) {
-            viewHolder.deviceStatus.setText("Never connected");
+            viewHolder.deviceStatus.setText(R.string.never_connected);
             viewHolder.connectionType.setImageResource(R.drawable.ic_btn_connect);
             //viewHolder.statusIcon.setImageResource(R.drawable.status_mark_ready);
         }
 
         if(status == Device.DeviceStatus.Ready) {
             if (device.getLastConnection() == null)
-                viewHolder.deviceStatus.setText("Never connected");
+                viewHolder.deviceStatus.setText(R.string.never_connected);
             else
-                viewHolder.deviceStatus.setText("Recently connected");
+                viewHolder.deviceStatus.setText(R.string.recently);
             viewHolder.connectionType.setImageResource(R.drawable.ic_btn_connect);
             viewHolder.statusIcon.setImageResource(R.drawable.status_mark_ready);
         }
 
         if(status == Device.DeviceStatus.Connected) {
-            viewHolder.deviceStatus.setText("Currently connected");
+            viewHolder.deviceStatus.setText(R.string.currently_connected);
             viewHolder.connectionType.setImageResource(R.drawable.ic_btn_disconnect);
             viewHolder.statusIcon.setImageResource(R.drawable.status_mark_connected);
         }

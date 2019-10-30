@@ -33,12 +33,16 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Header("Linked", Header.HeaderType.Linked));
         items.add(new Header("Connected", Header.HeaderType.Connected));
         items.add(new Header("Disconnected", Header.HeaderType.Ready));
+
         //items.addAll(DataGenerator.getDevicesDataset(5));
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         final AdapterListBasic mAdapter = new AdapterListBasic(this, items);
         RecyclerView rView = findViewById(R.id.recyclerView);
+
+        mAdapter.sortList();
+        mAdapter.notifyDataSetChanged();
 
         mAdapter.setOnItemClickListener(new AdapterListBasic.OnItemClickListener() {
             @Override
