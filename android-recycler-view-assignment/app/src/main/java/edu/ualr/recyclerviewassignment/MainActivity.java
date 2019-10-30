@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new AdapterListBasic.OnItemClickListener() {
             @Override
             public void onItemClick(View view, Device obj, int position) {
+
                 if(obj.getDeviceStatus()== Device.DeviceStatus.Ready)
                     obj.setDeviceStatus(Device.DeviceStatus.Connected);
                 else if(obj.getDeviceStatus() == Device.DeviceStatus.Connected) {

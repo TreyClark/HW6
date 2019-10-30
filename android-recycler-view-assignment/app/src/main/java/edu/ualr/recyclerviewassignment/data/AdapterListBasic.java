@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.ualr.recyclerviewassignment.R;
@@ -34,7 +35,7 @@ public class AdapterListBasic extends RecyclerView.Adapter {
         void onItemClick(View view, Device obj, int position);
     }
 
-    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
+    final public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mOnItemClickListener = mItemClickListener;
     }
 
@@ -197,15 +198,16 @@ public class AdapterListBasic extends RecyclerView.Adapter {
     }
 
     public void sortList(){
-        List<Item> linkedItems = null;
-        List<Item> readyItems = null;
-        List<Item> connectedItems = null;
-        List<Item> temp = null;
+        List<Item> linkedItems = new ArrayList<>();
+        List<Item> readyItems = new ArrayList<>();
+        List<Item> connectedItems = new ArrayList<>();
+        List<Item> temp = new ArrayList<>();
+
 
         //grab Connected section
         connectedItems = grabSection(mItems, Header.HeaderType.Connected, Device.DeviceStatus.Connected);
-        //temp = addSection(temp,connectedItems);
-        /*
+
+        temp = addSection(temp,connectedItems);
 
         //grab Ready section
         readyItems = grabSection(mItems,Header.HeaderType.Ready, Device.DeviceStatus.Ready);
@@ -215,13 +217,13 @@ public class AdapterListBasic extends RecyclerView.Adapter {
         linkedItems = grabSection(mItems, Header.HeaderType.Linked,Device.DeviceStatus.Linked);
         temp = addSection(temp,linkedItems);
 
-        mItems = temp;*/
+        mItems = temp;
 
     }
 
     public List<Item> grabSection(List<Item> mItems, Header.HeaderType targetHeader, Device.DeviceStatus targetDeviceStatus){
-        List<Item> target = null;
-        List<Item> temp = null;
+        List<Item> target = new ArrayList<>();
+        List<Item> temp = new ArrayList<>();
 
         Device device;
         Header header;
@@ -229,15 +231,15 @@ public class AdapterListBasic extends RecyclerView.Adapter {
 
         for(position = 0; position<mItems.size(); position++)
         {
+            System.out.println(position);
             if(mItems.get(position).getHeader() == true){
                 header = (Header) mItems.get(position);
                 if (header.getHeaderType() == targetHeader){
-                    System.out.println(header.getHeaderType());
-                    //target.add(mItems.get(position));
+                    target.add(mItems.get(position));
                 }
-            }}
-/*
-            if(mItems.get(position).getHeader() == false){
+            }
+
+           if(mItems.get(position).getHeader() == false){
                 device = (Device) mItems.get(position);
                 if (device.getDeviceStatus() == targetDeviceStatus){
                     temp.add(device);
@@ -246,18 +248,13 @@ public class AdapterListBasic extends RecyclerView.Adapter {
 
         }
 
-        for(position = 0;position<temp.size();position++){
-            target.add(temp.get(position));
-        }*/
+        target = addSection(target, temp);
 
         return target;
     }
 
     public List<Item> addSection (List<Item> target, List<Item> toBeAdded){
-        for(int position = 0; position<toBeAdded.size(); position++){
-            target.add(toBeAdded.get(position));
-        }
-
+        target.addAll(toBeAdded);
         return target;
 
     }
